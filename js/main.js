@@ -1051,34 +1051,38 @@ $(function () {
 
 });
 
-document.getElementById("contactForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent the default form submission
 
-    // Get the form values
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const phone = document.getElementById("phone").value;
-    const message = document.getElementById("message").value;
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent the default form submission
 
-    // Check if the phone number matches the pattern
-    const phonePattern = /^07\d{8}$/;
-    if (!phonePattern.test(phone)) {
-        alert("Please enter a valid phone number.");
-        return;
-    }
+        // Get the values from the form fields
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const phone = document.getElementById("phone").value;
+        const message = document.getElementById("message").value;
 
-    // Create the WhatsApp message
-    const whatsappMessage = 'Hello, I am ${name}. Here are my details:\n\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}';
+        // WhatsApp phone number (include country code without "+" sign)
+        const whatsappNumber = "94715567224"; // Replace with your WhatsApp number
 
-    // Encode the message to be URL-safe
-    const encodedMessage = encodeURIComponent(whatsappMessage);
+        // Create a message with form data
+        const whatsappMessage = encodeURIComponent(`
+            Name: ${name}
+            Email: ${email}
+            Phone: ${phone}
+            Message: ${message}
+        `);
 
-    // Create the WhatsApp link
-    const whatsappLink = 'https://wa.me/94715567224?text=${encodedMessage}';
+        // WhatsApp API link
+        const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
-    // Redirect to WhatsApp
-    window.open(whatsappLink, "_blank");
-});
+        // Open WhatsApp in a new tab
+        window.open(whatsappLink, "_blank");
+
+        // Optional: Show a confirmation message in the form
+        document.getElementById("formResponse").innerHTML = "<p>Your message has been sent successfully!</p>";
+    });
+
+
 
 
 
